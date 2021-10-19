@@ -1,26 +1,25 @@
-import 'package:demoapp/cubit/cubit/ph_login_cubit.dart';
+import 'package:demoapp/cubit/login/ph_login_cubit.dart';
 import 'package:demoapp/ui/loggedin.dart';
+import 'package:demoapp/ui/ml_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  final TextEditingController numberEditingController = TextEditingController();
+  final TextEditingController otpcontroller = TextEditingController();
 
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  late TextEditingController numberEditingController;
-  late TextEditingController otpcontroller;
-
-  @override
-  void initState() {
-    numberEditingController = TextEditingController();
-    otpcontroller = TextEditingController();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   numberEditingController = TextEditingController();
+  //   widget.otpcontroller = TextEditingController();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +51,10 @@ class _HomeState extends State<Home> {
                   child: BlocConsumer<PhLoginCubit, PhLoginState>(
                     listener: (context, state) {
                       if (state is loggedin) {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoggedIN()));
+                        // Navigator.pushReplacement(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => LoggedIN()));
                       }
                     },
                     builder: (context, state) {
@@ -73,7 +72,7 @@ class _HomeState extends State<Home> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 30, vertical: 10),
                                   child: TextField(
-                                    controller: numberEditingController,
+                                    controller: widget.numberEditingController,
                                     keyboardType: TextInputType.number,
                                   ),
                                 ),
@@ -83,12 +82,12 @@ class _HomeState extends State<Home> {
                                     RegExp regex =
                                         new RegExp(r'^(?:[+0]9)?[0-9]{10}$');
                                     bool valid = regex
-                                        .hasMatch(numberEditingController.text);
+                                        .hasMatch(widget.numberEditingController.text);
                                     if (valid) {
                                       print("Ok");
                                       context
                                           .read<PhLoginCubit>()
-                                          .login(numberEditingController.text);
+                                          .login(widget.numberEditingController.text);
                                     } else {
                                       print("Nope");
                                     }
@@ -119,7 +118,7 @@ class _HomeState extends State<Home> {
                                 },
                                 animationType: AnimationType.fade,
                                 enableActiveFill: true,
-                                controller: otpcontroller,
+                                controller: widget.otpcontroller,
                                 textStyle: TextStyle(color: Colors.black),
                                 pinTheme: PinTheme(
                                     shape: PinCodeFieldShape.box,
@@ -135,10 +134,10 @@ class _HomeState extends State<Home> {
                             ),
                             ElevatedButton(
                                 onPressed: () {
-                                  if (otpcontroller.text.length == 6)
+                                  if (widget.otpcontroller.text.length == 6)
                                     context
                                         .read<PhLoginCubit>()
-                                        .verifyOTP(otpcontroller.text);
+                                        .verifyOTP(widget.otpcontroller.text);
                                   else
                                     print("Nope otp");
                                 },
@@ -165,6 +164,20 @@ class _HomeState extends State<Home> {
                             ],
                           ),
                         );
+                      } else if (state is loggedin) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              child: Text("Logged In"),
+                            ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  context.read<PhLoginCubit>().logout();
+                                },
+                                child: Text("LogOut"))
+                          ],
+                        );
                       } else
                         return Container();
                     },
@@ -181,7 +194,10 @@ class _HomeState extends State<Home> {
                     padding: const EdgeInsets.all(50.0),
                     child: ElevatedButton(
                       child: Text("ML FACE"),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => MLApp()));
+                      },
                     ),
                   ),
                 ),

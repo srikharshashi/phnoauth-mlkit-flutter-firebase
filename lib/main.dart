@@ -1,9 +1,11 @@
-import 'package:demoapp/cubit/cubit/ph_login_cubit.dart';
+import 'package:demoapp/cubit/ml_page/ml_page_cubit.dart';
 import 'package:demoapp/services/fb_service.dart';
 import 'package:demoapp/ui/home.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'cubit/login/ph_login_cubit.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,34 +27,37 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => PhLoginCubit(firebaseService: FirebaseService()),
-        child: MaterialApp(
-          home: FutureBuilder(
-            // Initialize FlutterFire:
-            future: _initialization,
-            builder: (context, snapshot) {
-              // Check for errors
-              if (snapshot.hasError) {
+      create: (context) => MlPageCubit(),
+      child: BlocProvider(
+          create: (context) => PhLoginCubit(firebaseService: FirebaseService()),
+          child: MaterialApp(
+            home: FutureBuilder(
+              // Initialize FlutterFire:
+              future: _initialization,
+              builder: (context, snapshot) {
+                // Check for errors
+                if (snapshot.hasError) {
+                  return Scaffold(
+                    body: Center(
+                      child: Text("oops"),
+                    ),
+                  );
+                }
+
+                // Once complete, show your application
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return Home();
+                }
+
+                // Otherwise, show something whilst waiting for initialization to complete
                 return Scaffold(
                   body: Center(
-                    child: Text("oops"),
+                    child: Text("Loading"),
                   ),
                 );
-              }
-
-              // Once complete, show your application
-              if (snapshot.connectionState == ConnectionState.done) {
-                return Home();
-              }
-
-              // Otherwise, show something whilst waiting for initialization to complete
-              return Scaffold(
-                body: Center(
-                  child: Text("Loading"),
-                ),
-              );
-            },
-          ),
-        ));
+              },
+            ),
+          )),
+    );
   }
 }
