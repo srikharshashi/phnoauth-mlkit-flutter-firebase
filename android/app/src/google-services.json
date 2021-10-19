@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "943413323986",
+    "project_id": "ml-phno-demo",
+    "storage_bucket": "ml-phno-demo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943413323986:android:a800b7a62c13211284e50b",
+        "android_client_info": {
+          "package_name": "com.example.demoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "943413323986-m02cr327gb03m9ta3vii7oebtrdi0fn3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.demoapp",
+            "certificate_hash": "98318da1ded5063bee677cc5f5009c6632b29096"
+          }
+        },
+        {
+          "client_id": "943413323986-9vfa57uhveq3qjtki8pe73jirjdc6p36.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPfVtMA2tegDcNBbGbQTtXKc1aAR08alo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "943413323986-9vfa57uhveq3qjtki8pe73jirjdc6p36.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
